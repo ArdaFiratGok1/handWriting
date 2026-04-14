@@ -14,7 +14,7 @@ hands = mpHands.Hands(
     min_tracking_confidence=0.6
 )
 mpDraw = mp.solutions.drawing_utils
-
+##selam
 frameWidth = 1280
 frameHeight = 720
 cap = cv2.VideoCapture(0)
