@@ -5,18 +5,18 @@ import numpy as np
 
 # --- MediaPipe Ayarları ---
 mpHands = mp.solutions.hands
-# Tracking'i en yüksek hassasiyete çekiyoruz (Model 1 = Daha doğru konumlandırma)
+# Model karmaşıklığını 1'e çekerek daha dengeli (Hız/Doğruluk) bir takip sağlıyoruz
 hands = mpHands.Hands(
     static_image_mode=False,
     max_num_hands=1, 
     model_complexity=1, 
-    min_detection_confidence=0.6, 
-    min_tracking_confidence=0.6
+    min_detection_confidence=0.5, 
+    min_tracking_confidence=0.5
 )
 mpDraw = mp.solutions.drawing_utils
-##selam
-frameWidth = 1280
-frameHeight = 720
+
+frameWidth = 640
+frameHeight = 480
 cap = cv2.VideoCapture(0)
 cap.set(3, frameWidth)
 cap.set(4, frameHeight)
@@ -25,8 +25,9 @@ draw_points = []
 pTime = 0
 
 # --- HASSASİYET VE DOĞRULUK AYARLARI ---
-# smooth_factor 0.65: Gecikmeyi (delay) yok eder, anlık takip sağlar.
-smooth_factor = 0.65  
+# smooth_factor 0.25: Titremeyi (jitter) engeller, noktayı parmak ucuna sabitler.
+# Değer düştükçe stabilite artar ama çok az bir gecikme hissi oluşabilir.
+smooth_factor = 0.25  
 px, py = 0, 0 
 lost_frames = 0
 stability_threshold = 5 # Çizginin kopmaması için kısa süreli tolerans
